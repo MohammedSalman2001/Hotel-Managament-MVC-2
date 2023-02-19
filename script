@@ -1,0 +1,203 @@
+CREATE DATABASE HotelManagement;
+USE HotelManagement;
+CREATE TABLE IF NOT EXISTS AdminRegister(
+    id varchar(45),
+    userName varchar(45),
+    email varchar(45),
+    password varchar(45),
+    constraint primary key (id)
+);
+
+insert into AdminRegister VALUES ('U001','Salman','sa;man@gmail.com','salman');
+
+
+
+
+delete from AdminRegister where id='A004';
+delete from AdminRegister where id='A004';
+delete from AdminRegister where id='A003';
+delete from AdminRegister where id='A002';
+
+CREATE TABLE IF NOT EXISTS ReceptionistRegister(
+                                            id varchar(45),
+                                            userName varchar(45),
+                                            email varchar(45),
+                                            password varchar(45),
+                                            constraint primary key (id)
+);
+
+insert into ReceptionistRegister VALUES ('R001','Salman','salman@gmail.com','salman');
+SELECT * from ReceptionistRegister;
+
+delete from ReceptionistRegister where id='R002';
+delete from ReceptionistRegister where id='R002';
+
+delete from ReceptionistRegister;
+
+
+CREATE TABLE IF NOT EXISTS Employee
+(
+    eId      VARCHAR(45) primary key,
+    Ename     varchar(45) NOT NULL,
+    idNumber varchar(45) NOT NULL,
+    email    varchar(45),
+    job      varchar(45),
+    number   varchar(45),
+    age      varchar(45),
+    salary   double
+);
+
+Drop table  Employee;
+
+select * from Employee;
+
+delete  from  Employee;
+
+
+CREATE TABLE IF NOT EXISTS Room
+(
+    id           varchar(45),
+    bedType      varchar(45),
+    availability varchar(45),
+    cleanStatus  varchar(45),
+    price        double,
+    constraint primary key (id)
+);
+
+update Room set availability='Available';
+
+select * from room;
+
+select * from room where availability='Available' && id;
+
+delete  from room;
+
+
+create table if not exists Driver(
+    id varchar(45),
+    name varchar(45),
+    carModel varchar(45),
+    email varchar(45),
+    number varchar(45),
+    age varchar(45),
+    constraint primary key (id)
+);
+
+
+
+
+delete from Driver;
+
+show tables ;
+
+
+CREATE TABLE IF NOT EXISTS Customer(
+    id varchar(45),
+    name varchar(45),
+    country varchar(45),
+    email varchar(45),
+    mobileNo varchar(45),
+    age varchar(45),
+    gender varchar(45),
+    constraint primary key (id)
+);
+
+select * from Customer;
+
+
+CREATE TABLE IF NOT EXISTS Booking(
+                                      bookingId varchar(45),
+                                      date varchar(250),
+                                      customer varchar(45),
+                                      totalCost double,
+                                      constraint primary key (bookingId),
+                                      constraint foreign key (customer)references Customer(id)on
+                                          delete cascade on update cascade
+
+)
+
+select * from Booking;
+
+delete from Booking;
+
+
+create table if not exists bookingDetails(
+    RoomId  varchar(45),
+    bookingId varchar(45),
+    price double,
+    availability varchar(45),
+    dayCount INT,
+    constraint primary key (RoomId,bookingId),
+    constraint foreign key(RoomId)references Room(id)on delete cascade on update cascade,
+    constraint foreign key(bookingId)references Booking(bookingId)on delete cascade on update cascade
+
+
+);
+
+update bookingDetails set   availability='bookingDetails' where RoomId='R001';
+
+
+
+select * from bookingDetails;
+
+delete from bookingDetails;
+
+
+CREATE TABLE IF NOT EXISTS Meal
+(
+    id         varchar(45),
+    name       varchar(45),
+    unitePrice double,
+    qtyOnHand  INT,
+    constraint primary key (id)
+
+);
+
+select * from meal;
+
+
+CREATE table if not exists `Order`(
+    id varchar(45),
+    date varchar(210),
+    customer varchar(45),
+    totalCost double,
+    constraint primary key (id),
+    constraint foreign key (customer)references Customer(id)on delete cascade on update cascade
+
+
+);
+select * from `order`;
+
+delete from `order`;
+
+
+CREATE table if not exists  `Order Details`(
+    MealId varchar(45),
+    orderId varchar(45),
+    unitePrice double,
+    qty int,
+    constraint primary key (MealId,orderId),
+    constraint foreign key (MealId)references Meal(id)on delete cascade on update cascade,
+    constraint foreign key (orderId)references `order`(id)on delete cascade on update cascade
+);
+
+select c.id,c.name,bd.RoomId,bd.price,bd.dayCount,b.totalCost from bookingdetails bd inner join booking b on bd.bookingId = b.bookingid inner join customer c on b.customer = c.id;
+
+select * from `Order Details`;
+
+delete from `Order Details`;
+
+
+select * from customer;
+
+delete from Customer;
+select o.customer,od.MealId,od.unitePrice,od.qty,o.totalCost from `order`o inner join `Order Details` `od` on o.id = `od`.orderId where o.customer=''
+
+select o.id,d.MealId,d.orderId,d.unitePrice,d.qty from `Order` o INNER JOIN `Order Details` d ON o.id=d.orderId AND o.id='O001';
+
+select b.bookingId,d.RoomId,d.bookingId,d.price,d.availability,d. dayCount from Booking b INNER JOIN
+                    bookingDetails d ON b.bookingId=d.bookingId AND b.bookingId='B001';
+
+
+
+
